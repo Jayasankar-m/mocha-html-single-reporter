@@ -1,4 +1,5 @@
-## Simple Mocha Reporter
+## mocha-single-html-reporter
 
-A simple reporter for mocha that generates a single html file as the report file.
+A simple reporter for mocha that publishes results as a single html file and can be viewed without a server.
+
 
