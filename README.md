@@ -4,5 +4,5 @@ A simple reporter for mocha that publishes results as a single html file and can
 
 ## Sample Report
 
-![Sample Report](Jayasankar-m.github.com/mocha-html-single-reporter/src/sample_report.png)
+![Sample Report](src/sample_report.png)
 
