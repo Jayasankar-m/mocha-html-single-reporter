@@ -6,9 +6,10 @@ var SimpleMochaReporter = function () {
                             function showPopUp(el,msg) {
                                 var cvr = document.getElementById("cover");
                                 var dlg = document.getElementById(el);
-                                document.getElementById("dialogcontent").innerText = msg;
+                                document.getElementById("errormsg").innerText = msg;
                                 cvr.style.display = "block";
                                 dlg.style.display = "block";
+                                dlg.style.overflow = "auto";
                                 if (document.body.style.overflow = "hidden") {
                                     cvr.style.width = "100%";
                                     cvr.style.height = "100%";
@@ -50,11 +51,11 @@ var SimpleMochaReporter = function () {
                               position:absolute;
                               top:50%;
                               left:50%;
-                              width:600px;  
-                              height:400px;   
+                              width:800px;  
+                              height:500px;   
                               background: white;
-                              border-style: outset;
-                              margin-left:-200px;   
+                              border-style: block;
+                              margin-left:-400px;   
                               margin-top:-200px;   
                               
                           }
@@ -71,13 +72,28 @@ var SimpleMochaReporter = function () {
                             -moz-opacity:   0.5;
                             -khtml-opacity: 0.5
                         }
+                        .button {
+                            background-color: rgb(10, 25, 114);
+                            border: none;
+                            color: white;
+                            padding: 10px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 1.1em;
+                            margin: 2px 2px;
+                        }
                       </style></head><body>
-                      <div id="cover"></div>
-                      <div id="dialog" hidden>
-                          <br><div align="center"><b>Error Details</b></div><br>
-                          <div align="center" id='dialogcontent' style='overflow-y: scroll;'></div>
+                      <div id="cover" ></div>
+                      <div id="dialog" hidden >
+                          <br><div align="center" style='overflow-y: auto;'>
+                          <table id="mochastyle" style='table-layout:fixed;' border='1'>
+                            <th><b>Error Details</b></th>
+                            <tr id="errormsg"></tr>
+                          </table>
+                          </div>
                           <br>
-                          <div align="center"><button align="center" onclick="closePopUp('dialog');">Close</a></div>
+                          <div align="center"><button class='button' align="center" onclick="closePopUp('dialog');">Close</a></div>
                       </div>
 
                       <table width='80%' align='center'><tr><th align='center'><h1>Test Report</h1></th></tr></table><table id="mochastyle" border='1' align='center' width='80%'><tr><th>Test Summary</th><th>Result</th><th>Duration</th></tr>`;
@@ -95,16 +111,16 @@ var SimpleMochaReporter = function () {
 
         runner.on('fail', function (test, err) {
             failures++;
-            reportContent = reportContent + `<tr><td>${test.fullTitle()}</td><td><a href='#" background-color='red' onclick='showPopUp("dialog",\`` + `${err.message}` + `\`)'><font color='red'>Fail</font></button></td><td>${test.duration} ms</td></tr>`;
-            console.log('fail: %s -- error: %s', test.fullTitle(), err.message);
+            var errorMsg = err.message.replace(/\\/g,"\\\\");
+            reportContent = reportContent + `<tr><td>${test.fullTitle()}</td><td><a href='#' background-color='red' onclick='showPopUp("dialog",\`` + `${errorMsg}` + `\`)'><font color='red'>Fail</font></button></td><td>${test.duration} ms</td></tr>`;
+            console.log('fail: %s', test.fullTitle());
         });
 
         runner.on('end', function () {
             reportContent = reportContent + '</table></body></html>';
             let fs = require('fs');
-            console.log(reportContent)
             fs.writeFileSync("testreport.html", reportContent)
-            console.log('end: %d/%d', passes, passes + failures);
+            console.log('summary: %d/%d', passes, passes + failures);
         });
     }
 
