@@ -15,5 +15,6 @@ A 'testreport.html' file will get generated which will have the pass/fail detail
 Also,gives the details of the error in a popup window on clicking the 'Fail' cases link.
 
 ## Sample Report
+A sample report is shown below
 ![Sample Report](images/sample_report.png)
 
