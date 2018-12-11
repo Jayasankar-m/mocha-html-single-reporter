@@ -2,7 +2,7 @@
 A simple reporter for mocha that publishes results as a single html file and can be viewed without a server.
 This can be easily integrated with CI system.
 
-## Install
+## Installation
 ```
 npm i mocha-html-single-reporter
 ```
